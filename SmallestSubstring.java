@@ -63,8 +63,16 @@ public class SmallestSubstring {
 			 */
 			
 			if(str.charAt(begIndex) - str.charAt(endIndex) == 0) {
-				begIndex = i;
-				endIndex = ++i;
+				if(endIndex - begIndex > 1) {
+					for(int j = begIndex; j < endIndex; j++)
+					{
+						hm.put(str.charAt(j), 0);
+					}
+				} else {
+					hm.put(str.charAt(begIndex), 1);
+				}
+				begIndex = i-1;
+				endIndex = i;
 				continue;
 			}
 			
@@ -74,31 +82,26 @@ public class SmallestSubstring {
 			if(begCounter == 0 && endCounter == 0) {
 				hm.put(str.charAt(begIndex), 1);
 				hm.put(str.charAt(endIndex), 1);
-				++endIndex;
+				result += str.charAt(begIndex);
+				result += str.charAt(endIndex);
+				endIndex = ++i;
 			} else {
 				endCounter += hm.put(str.charAt(i), ++endCounter);
 				if(endCounter > 1) {
+					hm.put(str.charAt(begIndex), 0);
 					hm.put(str.charAt(i), 1);
 					begIndex = i;
 					endIndex = ++i;
+					result = str.charAt(i) + "";
+				} else if (endCounter == 0) {
+					hm.put(str.charAt(endIndex), 1);
+					result += str.charAt(endIndex);
+					endIndex = ++i;
+				} else {
+					result += str.charAt(endIndex);
+					endIndex = ++i;
 				}
 			}
-			
-			/*
-			if(begCounter == 0) {
-				hm.put(str.charAt(i), ++freqCounter);
-				result += str.charAt(i);
-				++endIndex;
-			} else if(freqCounter == 1) {
-				if(hm.get(str.charAt(begIndex)) == 1) hm.put(str.charAt(begIndex),0);
-				if(hm.get(str.charAt(endIndex)) == 1) hm.put(str.charAt(endIndex),0);
-				result = "" + str.charAt(i);
-				begIndex = i-1;
-				endIndex = i;
-			} else {
-				return null;
-			}
-			*/
 		}
 		
 		return result.equalsIgnoreCase(str) ? result : null;
