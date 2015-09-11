@@ -34,13 +34,16 @@ public class SmallestSubstring {
 		 * 	  over again until we either find the unique sequence of characters or
 		 *    we iterate through all of the characters of "str."
 		 * 4) Save the unique characters in the string "result"
-		 * 5) If result.equalsIgnoreCase(substring) then we found our substring and
-		 *    we return it or else we return null;
+		 * 5) If str.equalsIgnoreCase(result) then we found our substring and
+		 *    we return it in the result variable or else we return null;
 		 */
+		if(arr == null || str == null || arr.length >= str.length()) return null;
+		
 		String result = null;
 		int begIndex = 0;
 		int endIndex = 0;
-		int freqCounter = 0;
+		int begCounter = 0;
+		int endCounter = 0;
 		
 		HashMap<Character, Integer> hm = new HashMap<>();
 		
@@ -51,10 +54,38 @@ public class SmallestSubstring {
 		}
 		
 		// Time O(n)
-		for(int i = 0; i < str.length(); i++) {
-			freqCounter = hm.get(str.charAt(i));
+		for(int i = 1; i < str.length(); i++) {
+			/*
+			 * Subtract consecutive characters to determine if they are the same
+			 * value by checking if the result is equal to 0 (zero).  If so, then
+			 * skip to the next iteration and increment the begIndex and endIndex
+			 * pointers.
+			 */
 			
-			if(freqCounter == 0) {
+			if(str.charAt(begIndex) - str.charAt(endIndex) == 0) {
+				begIndex = i;
+				endIndex = ++i;
+				continue;
+			}
+			
+			begCounter = hm.get(str.charAt(begIndex));
+			endCounter = hm.get(str.charAt(endIndex));
+			
+			if(begCounter == 0 && endCounter == 0) {
+				hm.put(str.charAt(begIndex), 1);
+				hm.put(str.charAt(endIndex), 1);
+				++endIndex;
+			} else {
+				endCounter += hm.put(str.charAt(i), ++endCounter);
+				if(endCounter > 1) {
+					hm.put(str.charAt(i), 1);
+					begIndex = i;
+					endIndex = ++i;
+				}
+			}
+			
+			/*
+			if(begCounter == 0) {
 				hm.put(str.charAt(i), ++freqCounter);
 				result += str.charAt(i);
 				++endIndex;
@@ -67,9 +98,10 @@ public class SmallestSubstring {
 			} else {
 				return null;
 			}
+			*/
 		}
 		
-		return str.equalsIgnoreCase(result) ? result : null;
+		return result.equalsIgnoreCase(str) ? result : null;
 	}
 
 }
