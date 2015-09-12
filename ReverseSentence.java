@@ -9,56 +9,34 @@ public class ReverseSentence {
 	 * Space Complexity: O(n)
 	 */
 	public static void main(String[] args) {
-		char[] arr = {
+		char[] source = {
 				'p','e','r','f','e','c','t',' ',
 				'm','a','k','e','s',' ',
 				'p','r','a','c','t','i','c','e'
 				};
-		char[] result = new char[arr.length];
-		int arrLength = arr.length-1;
-		int resultLength = result.length;
-		int resultIndex = 0;
+		char[] destination = new char[source.length];
+		int previous = source.length;
+		int destination_index = 0;
 		
-		// start at the end of the array
-		int firstLetterIndex = arrLength;
-		int lastLetterIndex = arrLength;
-		
-		for(int i = arrLength; i >= 0; --i) {
-			if(arr[i] == ' ') {
-				
-				//System.out.println("We found a space");
-								
-				firstLetterIndex = i + 1;
-				
-				for(int j = firstLetterIndex; j <= lastLetterIndex; ++j) {
-					result[resultIndex++] = arr[j];
-				}
-				result[++resultIndex] = ' ';
-				resultIndex += 1;
-				
-				
-			} else if(i == 0) {
-				
-				//System.out.println("We found the beginning");
-				
-				
-				firstLetterIndex = 0;
-				
-				// copy the rest of the characters into the result array
-				for(int k = firstLetterIndex; k <= lastLetterIndex; ++k) {
-					result[resultIndex++] = arr[k];
-				}
-				
-				
+		for(int i = source.length-1; i >= 0; i--) {
+			if(source[i] != ' ' && i > 0) continue;
+			
+			
+			int j = (i == 0) ? i : i+1;
+			
+			for(; j < previous; j++) {
+				destination[destination_index++] = source[j];
 			}
 			
-			// update the last letter index
-			lastLetterIndex = i - 1;
+			if(i != 0) destination[destination_index++] = ' ';
+			
+			previous = i;
 		}
 		
+			
 		// print out the result array
-		for(int i = 0; i < resultLength; ++i) {
-			System.out.println(result[i]);
+		for(int i = 0; i < destination.length; ++i) {
+			System.out.println(destination[i]);
 		}
 		
 	}
