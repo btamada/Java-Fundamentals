@@ -5,7 +5,7 @@ public class ReverseSentence {
 	/* 
 	 * Reverse the words in the character array for n number of words
 	 * 
-	 * Time Complexity: O(n^2)
+	 * Time Complexity: O(n)
 	 * Space Complexity: O(n)
 	 */
 	public static void main(String[] args) {
@@ -20,7 +20,6 @@ public class ReverseSentence {
 		
 		for(int i = source.length-1; i >= 0; i--) {
 			if(source[i] != ' ' && i > 0) continue;
-			
 			
 			int j = (i == 0) ? i : i+1;
 			
