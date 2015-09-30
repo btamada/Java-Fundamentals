@@ -33,7 +33,7 @@ public class ReverseSentence {
 		}
 		
 			
-		// print out the result array
+		// print out the destination array
 		for(int i = 0; i < destination.length; ++i) {
 			System.out.println(destination[i]);
 		}
